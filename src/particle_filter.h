@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "helper_functions.h"
 
 struct Particle {
@@ -63,8 +64,8 @@ public:
      * @param predicted Vector of predicted landmark observations
      * @param observations Vector of landmark observations
      */
-    void dataAssociation(std::vector<LandmarkObs> predicted,
-                         std::vector<LandmarkObs> &observations);
+    std::unordered_map<int, LandmarkObs> dataAssociation(const std::vector<LandmarkObs> &predicted,
+                                                         std::vector<LandmarkObs> &observations);
 
     /**
      * updateWeights Updates the weights for each particle based on the likelihood
@@ -80,8 +81,7 @@ public:
                        const Map &map_landmarks);
 
     /**
-     * resample Resamples from the updated set of particles to form
-     *   the new set of particles.
+     *   Re-samples from the updated set of particles to form the new set of particles.
      */
     void resample();
 
@@ -105,9 +105,9 @@ public:
     /**
      * Used for obtaining debugging information related to particles.
      */
-    std::string getAssociations(Particle best);
+    std::string getAssociations(const Particle &best);
 
-    std::string getSenseCoord(Particle best, std::string coord);
+    std::string getSenseCoord(const Particle &best, const std::string &coord);
 
     // Set of current particles
     std::vector<Particle> particles;
